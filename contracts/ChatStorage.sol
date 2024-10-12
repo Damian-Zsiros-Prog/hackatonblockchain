@@ -58,22 +58,4 @@ contract ChatStorage {
     function getMessageCount() public view returns (uint256) {
         return messagesCounter; // Retorna el contador de mensajes
     }
-
-    // Nueva función para obtener todos los mensajes
-    function getAllMessages()
-        public
-        view
-        returns (string[] memory, uint256[] memory)
-    {
-        string[] memory contents = new string[](messagesCounter);
-        uint256[] memory timestamps = new uint256[](messagesCounter);
-
-        for (uint256 i = 1; i <= messagesCounter; i++) {
-            Message storage message = messages[i];
-            contents[i - 1] = message.content; // Guarda el contenido del mensaje
-            timestamps[i - 1] = message.timestamp; // Guarda el timestamp del mensaje
-        }
-
-        return (contents, timestamps); // Retorna los arrays con contenidos y timestamps
-    }
 }
