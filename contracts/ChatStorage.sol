@@ -2,8 +2,7 @@
 pragma solidity 0.8.6;
 
 contract ChatStorage {
-    // Contador de mensajes
-    uint256 public messagesCounter;
+    uint256 public messagesCounter = 0;
 
     // Estructura para representar un mensaje
     struct Message {
@@ -25,9 +24,7 @@ contract ChatStorage {
     mapping(uint256 => Message) public messages;
 
     // Constructor
-    constructor() {
-        messagesCounter = 0; // Inicializa el contador de mensajes
-    }
+    constructor() {}
 
     // Función para enviar un mensaje
     function sendMessage(string memory _content) public {
@@ -56,6 +53,35 @@ contract ChatStorage {
 
     // Función para obtener la cantidad total de mensajes
     function getMessageCount() public view returns (uint256) {
-        return messagesCounter; // Retorna el contador de mensajes
+        // Retorna el contador de mensajes
+        return messagesCounter;
+    }
+
+    // Opcional: función para obtener el contador como un entero en formato string
+    function getMessageCountAsString() public view returns (string memory) {
+        return uintToString(messagesCounter); // Convierte a string (si es necesario)
+    }
+
+    // Función auxiliar para convertir uint a string
+    function uintToString(
+        uint256 _value
+    ) internal pure returns (string memory) {
+        if (_value == 0) {
+            return "0";
+        }
+        uint256 temp = _value;
+        uint256 digits;
+        while (temp != 0) {
+            digits++;
+            temp /= 10;
+        }
+        bytes memory buffer = new bytes(digits);
+        uint256 index = digits - 1;
+        temp = _value;
+        while (temp != 0) {
+            buffer[index--] = bytes1(uint8(48 + (temp % 10)));
+            temp /= 10;
+        }
+        return string(buffer);
     }
 }
